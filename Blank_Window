@@ -1,0 +1,142 @@
+
+includelib msvcrt.lib
+includelib ucrt.lib
+includelib legacy_stdio_definitions.lib
+
+; 2. FOR THE LINKER (tells LINK where to find the function code)
+includelib kernel32.lib  ; For ExitProcess, GetModuleHandle, etc.
+includelib user32.lib    ; For MessageBox, CreateWindow, etc.
+;
+includelib gdi32.lib      ; For grap
+
+
+extern LoadCursorA:proc
+extern RegisterClassA:proc
+extern CreateWindowExA:proc
+extern GetMessageA:proc
+extern TranslateMessage:proc
+extern DispatchMessageA:proc
+extern DefWindowProcA:proc
+extern PostQuitMessage:proc
+extern DefWindowProcA :proc
+
+.data
+MsgTitle  db "My ASM Window", 0  ; Null-terminated string
+MsgText   db "Hello from pure MASM!", 0
+ClassName db "A",0
+wnd_Title db "Hello",0
+wc db 72 dup (0)
+msg db 72 dup (0)
+
+
+WM_CREATE       equ 0001h
+WM_DESTROY      equ 0002h
+WM_PAINT        equ 000Fh
+WM_CLOSE        equ 0010h
+WM_QUIT         equ 0012h
+WM_KEYDOWN      equ 0100h
+WM_LBUTTONDOWN  equ 0201h
+WM_MOUSEMOVE    =  200h
+
+
+.code
+
+WindowProc proc
+    ; 1st param (hWnd) is in RCX
+    ; 2nd param (uMsg) is in RDX
+    ; 3rd param (wParam) is in R8
+    ; 4th param (lParam) is in R9
+    
+    cmp rdx, WM_DESTROY           ; Check if uMsg == WM_DESTROY
+
+    jne HandleDefault           ; If not, jump to default handler
+
+
+    ; --- Handle WM_DESTROY (the 'X' button) ---
+    sub rsp, 28h                ; Reserve shadow space
+    xor rcx, rcx                ; 1st param (nExitCode) = 0
+    call PostQuitMessage        ; Post WM_QUIT to our message loop
+    add rsp, 28h
+    xor rax, rax                ; Return 0
+    ret
+
+HandleDefault:
+    ; --- Handle all other messages (like WM_CREATE) ---
+    ; We must call DefWindowProcA(hWnd, uMsg, wParam, lParam)
+    ; The parameters are already in the correct registers (RCX, RDX, R8, R9)
+    sub rsp, 28h                ; Reserve shadow space
+    call DefWindowProcA         ; Let Windows handle it
+    add rsp, 28h
+    ret                         ; The return value is already in RAX from the call
+WindowProc endp
+
+
+WinMain proc
+mov r15,rcx
+
+
+mov qword ptr [wc+48], 6
+
+sub rsp,20h
+mov rcx,0
+mov rdx, 32512
+call LoadCursorA
+add rsp,20h
+
+mov qword ptr [wc+40], rax
+mov qword ptr[wc+24],r15
+lea rcx,ClassName
+mov qword ptr[wc+64],rcx
+lea rcx,WindowProc
+mov qword ptr[wc+8],rcx
+
+
+sub rsp,28h
+lea rcx,wc
+call RegisterClassA
+add rsp,28h
+
+
+sub rsp, 88h                ; Reserve 96 bytes (8 params + 4 shadow)
+
+xor rcx, rcx                ; 1. dwExStyle <-- THIS IS THE FIX (set to 0)
+lea rdx, ClassName          ; 2. lpClassName
+lea r8, wnd_Title           ; 3. lpWindowName
+mov r9, 10CF0000h          ; 4. dwStyle (WS_OVERLAPPEDWINDOW | WS_VISIBLE)
+mov qword ptr [rsp+20h], 100 ; 5. X
+mov qword ptr [rsp+28h], 100 ; 6. Y
+mov qword ptr [rsp+30h], 500 ; 7. nWidth
+mov qword ptr [rsp+38h], 500 ; 8. nHeight
+mov qword ptr [rsp+40h], 0   ; 9. hWndParent
+mov qword ptr [rsp+48h], 0   ; 10. hMenu
+mov qword ptr [rsp+50h], r15 ; 11. hInstance (!!!)
+mov qword ptr [rsp+58h], 0   ; 12. lpParam
+
+call CreateWindowExA        ; <-- Call the 'Ex' version
+mov r14,0
+add rsp, 88h
+
+
+_loop:
+sub rsp,20h
+lea rcx,msg
+mov rdx,0
+mov r8,0
+mov r9,0
+call GetMessageA
+add rsp,20h
+
+sub rsp,20h
+lea rcx,msg
+call TranslateMessage
+lea rcx,msg
+call DispatchMessageA
+add rsp,20h
+jmp _loop
+
+ret
+WinMain endp
+
+
+
+end
