@@ -126,6 +126,9 @@ mov r9,0
 call GetMessageA
 add rsp,20h
 
+cmp rax,0 
+je _Exit
+
 sub rsp,20h
 lea rcx,msg
 call TranslateMessage
@@ -134,6 +137,8 @@ call DispatchMessageA
 add rsp,20h
 jmp _loop
 
+
+_Exit:
 ret
 WinMain endp
 
