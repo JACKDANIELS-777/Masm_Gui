@@ -35,7 +35,7 @@ CreateMenusString PROC
     mov     r15, rax
 
     mov     r13, 0
-
+    mov rbx,0
     sub     rsp, 100h
 
 _loop:
@@ -67,7 +67,7 @@ _add_menu:
     sub     rsp, 20h
     mov     rcx, r15
     mov     rdx, MF_STRING
-    mov     r8, 0
+    mov     r8, rbx
     lea     r9, qword ptr [r12]
     call    AppendMenuA
     add     rsp, 20h
@@ -75,7 +75,7 @@ _add_menu:
     add     r14, 1
     add     r12, r13
     mov     r13, 0
-    
+    add rbx,1
     jmp     _loop
 
 _continue:
