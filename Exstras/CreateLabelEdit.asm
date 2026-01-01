@@ -1,3 +1,17 @@
+; =============================================================
+; CUSTOM CALLING CONVENTION FOR UI CREATION
+; =============================================================
+; INPUTS:
+;   RBX      : Control ID (Menu ID)
+;   RDX      : Class Name Address (e.g., &StaticClass)
+;   R8       : Window Text Address
+;   R9       : Window Style (e.g., WS_VISIBLE | WS_CHILD)
+;   R10-R11  : X, Y Position (Volatile - Reset each call)
+;   R12-R13  : Width, Height (Preserved)
+;   R14      : Parent Handle (Preserved)
+;   R15      : Instance Handle (Preserved)
+; =============================================================
+
 include constants.inc
 
 extern CreateWindowExA:proc
@@ -8,19 +22,6 @@ extern CreateWindowExA:proc
 .code
 
 CreateLabelEdit proc
-;rbx id
-;rdx type static/edit
-;r8 Text
-;r9 type
-;r10 x
-;r11 y
-;r12 width
-;r13 height
-;r14 hWnd ptr
-;r15 hInstance
-
-;rcx hWnd ptr
-;rdx hInstance
 
 sub rsp,60h
 
