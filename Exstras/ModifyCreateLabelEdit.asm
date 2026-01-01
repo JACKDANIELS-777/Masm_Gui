@@ -51,5 +51,3 @@ ModifyCreateLabelEdit proc
     ret
 
 ModifyCreateLabelEdit endp
-
-ModifyCreateLabelEdit endp
