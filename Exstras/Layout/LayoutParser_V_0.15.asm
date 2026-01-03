@@ -4,7 +4,7 @@
 ; Author: JACKDANIELS-777
 ; Description: A dynamic UI parser that generates Windows Common Controls
 ;              (Static, Edit, Button, Combo, ListBox, Scroll) from a data string.
-; Syntax: "Type,ID,X,Y,W,H,Text,\c"
+; Syntax: "Type,ID,X,Y,W,H,Text,\c" etc
 ; =============================================================================
 
 include constants.inc
