@@ -2,6 +2,7 @@
 ; MASM x64 Layout Engine v0.2
 ; Description: Dynamic UI parser for Windows Common Controls.
 ; Syntax: "Type,ID,X,Y,W,H,Text,\c"
+; Stress Test 5000 buttons
 ; =========================================================================================
 
 include constants.inc
