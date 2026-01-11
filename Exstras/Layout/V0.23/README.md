@@ -1,7 +1,7 @@
 # 🏆 LayoutParser x64 Layout Engine (V0.23)
 ### Masm Gui LayoutParser
 
-LayoutParser V0.23 is a data-driven UI engine built in pure x64 assembly, designed for extreme efficiency with a **1.4 MB memory footprint**. Unlike standard Windows frameworks, LayoutParser uses a **Character-Based State Machine** to parse and execute complex UI layouts from simple, comma-delimited strings.
+LayoutParser V0.23 is a data-driven UI engine built in pure x64 assembly, designed for extreme efficiency with a **1.4 MB memory footprint**. Unlike standard Windows frameworks, LayoutParser uses a **Character-Based State Machine** to parse and execute simple to future complex UI layouts from simple, comma-delimited strings.
 
 ## 🚀 What makes V0.23 "Different"?
 * **Hierarchical Scoping (NEW)**: Introduced the `(` and `)` syntax to define nested control groups.
