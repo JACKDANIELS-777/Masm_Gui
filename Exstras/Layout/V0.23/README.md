@@ -29,4 +29,4 @@ LayoutStr db "Y,0,500,5,240,160,A,\c"             ; Parent DLG
           db "ZA,100,500,50,24,16,AA,\c"          ; Nested Custom Button 2
           db "ZA,1000,120,50,24,16,AA,\c)", 0     ; Nested Button 3 & Close Scope
 ```
-
+### Side Note A just gets appened to control ie. B for regular static Button becomes BA,.... etc. Works for all existing controls
