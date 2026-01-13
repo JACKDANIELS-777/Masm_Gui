@@ -1,7 +1,4 @@
-; =========================================================================================
-; MASM_GUI V0.20 - Main Component Engine
-; Features: O(1) Unified Rendering, State Management, and RBP-Relative Stack Frame
-; Added Animation6
+;Added in data movement for future use
 ; =========================================================================================
 include constants.inc
 include CustomButtonConstants.inc
