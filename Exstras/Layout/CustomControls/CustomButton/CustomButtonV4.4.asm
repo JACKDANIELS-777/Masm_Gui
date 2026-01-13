@@ -81,7 +81,7 @@ BtnProc proc
     mov rbp, rsp
     sub rsp, 320h        ; Aligned stack allocation
 
-    mov rbx,HandleDefault
+    lea rbx,HandleDefault
 
 
     lea rcx,_Create
