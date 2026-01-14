@@ -1,1 +1,2 @@
-Above currenlty WM_PAINT is disabled or more accurately not of use. In later versions ill add back WM_PAINT so that {} isnt required to show for each non static ie dynamic control
+Above currenlty WM_PAINT is disabled or more accurately not of use. In later versions ill add back WM_PAINT so that {} isnt required to show for each non static ie dynamic control.
+Keep in mind for attributes it must finish with a , ie {a:100} wrong {a:100,} correct. As of 2026/01/14. Also make sure you have all the valid files to ensure everything is up to data FullWorking V0.25 is in progress ready to be packed.
