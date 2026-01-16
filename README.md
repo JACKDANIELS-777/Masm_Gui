@@ -6,7 +6,7 @@ By managing the stack, registers, and memory manually, this project serves as a 
 
 ---
 
-## 🏗️ Architectural Exploration
+## 🏗️ Architectural Exploration.
 
 The project currently focuses on several core "low-level" concepts:
 
