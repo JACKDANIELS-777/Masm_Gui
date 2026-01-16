@@ -1,6 +1,6 @@
 ; =========================================================================================
 ; Ironing out some win api deluions. Control! Y! will will take in future versions delayed execution and add the controls after the main wnd has been created.
-; Also big fix at r13 in AttrParser
+; Also big fix at r13 in AttrParser...
 ; =========================================================================================
 
 include constants.inc
