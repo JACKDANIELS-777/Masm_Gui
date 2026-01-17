@@ -1,7 +1,7 @@
 ; =========================================================================================
 ; Module Name:  LayoutEngine.asm (v0.25)
 ; Layout Parser ! adds windows at a delayed time for now its on hover of the main wnd.
-;Still working on a bug with the ! Delayed exe fixed tommorow
+; Seems to be fixed now. Will run more tests tommorow to make sure there are no hidden bugs
 ; =========================================================================================
 
 include constants.inc
@@ -65,9 +65,9 @@ extern CreateLabelEditThread  : proc
     ThreadData       dq 10 dup(0)
 
     ; --- Layout Configuration ---
-    LayoutStr     db "Y!,0,10,100,100,100,{f:10,b:11,s:10,}Aqaabbbbbb,\c"
-                   db "(ZA,1000,50,50,100,100,{f:10,b:17,}Aqaabbbbbb,\c)"
-                   db "Y,0,10,200,100,100,{f:10,b:11,s:10,}Aqaabbbbbb,\c",0
+    LayoutStr      db "Y,0,10,200,100,100,{b:10,f:17,}Aqaabbbbbb,\c"
+                    db "Y!,0,10,100,100,100,{f:10,b:11,s:10,}Aqaabbbbbb,\c"
+                   db "(ZA,1000,50,50,100,100,{f:10,b:17,}Aqaabbbbbb,\c)",0
                    
 
     ; --- Win32 Class Constants ---
@@ -254,6 +254,7 @@ _Type:
     _Delayed:       mov rcx, 0
                     mov rdx, 0
                     mov rsi, r14
+
                     sub rsi, r12
                     mov rdi, 0
                     mov r8, 0
@@ -392,11 +393,13 @@ _add_control:
     mov r12, qword ptr[rsp+64]
     mov r14, qword ptr[rsp+80]
     mov r15, qword ptr[rsp+88]
+    mov r12,0
     mov rbx, 0
     jmp _continue
 
 _continue:
     add r14, 1
+    
     jmp _loop
 
 _exit:
