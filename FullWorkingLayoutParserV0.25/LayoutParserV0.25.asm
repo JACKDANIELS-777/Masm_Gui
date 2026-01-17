@@ -1,10 +1,6 @@
 ; =========================================================================================
 ; Module Name:  LayoutEngine.asm (v0.25)
-; Framework:    Binsapd x64 - Dynamic UI Parser
-; Architecture: x86-64 (MASM)
-; Description:  High-speed hierarchical UI Engine featuring "Scoped Nesting" and 
-;               "Parent Locking" via () syntax for nested control groups.
-; Memory:       Optimized for 1.4 MB footprint.
+; Small bug with Delayed Exe counting 
 ; =========================================================================================
 
 include constants.inc
