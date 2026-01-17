@@ -1,6 +1,10 @@
 ; =========================================================================================
 ; Module Name:  LayoutEngine.asm (v0.25)
-; Delayed execution on hover main wnd. Only executes once to ensure the exe doesnt crash.
+; Framework:    Binsapd x64 - Dynamic UI Parser
+; Architecture: x86-64 (MASM)
+; Description:  High-speed hierarchical UI Engine featuring "Scoped Nesting" and 
+;               "Parent Locking" via () syntax for nested control groups.
+; Memory:       Optimized for 1.4 MB footprint.
 ; =========================================================================================
 
 include constants.inc
@@ -41,6 +45,9 @@ extern hwndMain               : qword
 extern CreateThread           : proc
 extern CreateLabelEditThread  : proc
 
+extern RegisterMainWnd:proc
+extern CreateMainWnd:proc
+
 .data
     ; --- Global Handles & State Flags ---
     BTNHANDLE        dq 0
@@ -64,9 +71,9 @@ extern CreateLabelEditThread  : proc
     ThreadData       dq 10 dup(0)
 
     ; --- Layout Configuration ---
-    LayoutStr     db "Y!,0,10,100,100,100,{f:10,b:11,s:10,}Aqaabbbbbb,\c"
-                   db "(ZA,1000,50,50,100,100,{f:10,b:17,}Aqaabbbbbb,\c)"
-                   db "Y,0,10,200,100,100,{f:10,b:11,s:10,}Aqaabbbbbb,\c",0
+    LayoutStr   db "Y!,0,10,20,20,50,{b:17,f:2,}lo000l,\c"
+                db "Z,1002,10,200,200,50,{b:10,f:2,}lo0l,\c",0
+      
                    
 
     ; --- Win32 Class Constants ---
@@ -97,6 +104,8 @@ LayoutParser proc
     sub rsp, 100h            ; Preserve stack / Shadow space
     call RegisterBtn
     call RegisterCustomDlgProc
+    ;call RegisterMainWnd
+    ;call CreateMainWnd
 
 _loop:
     mov al, byte ptr[r14]
@@ -260,7 +269,7 @@ _Type:
                     ;sub rcx, 2
                     mov al,byte ptr[r14-2]
                     mov byte ptr[r14-1],al
-                    sub r14,2
+                    sub r14,r12 ;fix
 
                     call strcopy
                     add r14, rcx
@@ -426,7 +435,7 @@ _Add:
     cmp dl, "c"
     jne _continue
 
-    add rcx, 1
+    add rcx, 2
     cmp r8, 1
     
     je _continue
