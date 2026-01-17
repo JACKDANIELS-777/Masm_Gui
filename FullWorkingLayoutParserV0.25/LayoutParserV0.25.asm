@@ -1,6 +1,6 @@
 ; =========================================================================================
 ; Module Name:  LayoutEngine.asm (v0.25)
-; Delayed execution on hover main wnd
+; Delayed execution on hover main wnd. Only executes once to ensure the exe doesnt crash.
 ; =========================================================================================
 
 include constants.inc
