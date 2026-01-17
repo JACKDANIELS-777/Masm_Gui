@@ -1,5 +1,5 @@
 ; =========================================================================================
-; Added in r attribute. for round : color {r:17,} pink. b and r can be used together but seperate is adviced
+; Added in r attribute. for round : color {r:17,} pink. b and r can be used together but seperate is adviced.
 ; =========================================================================================
 include constants.inc
 include CustomButtonConstants.inc
