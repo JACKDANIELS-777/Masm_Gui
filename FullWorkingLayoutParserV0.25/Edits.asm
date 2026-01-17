@@ -3,7 +3,7 @@ include constants.inc
 public MainEditptr
 .data
 szEditClass db "EDIT", 0
-szLabelText   db " ", 0  ; Main Label Text
+szLabelText   db " ", 0  ; Main Label Text.
 MainEditptr dq 0
 
 
