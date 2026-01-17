@@ -1,6 +1,5 @@
 ; =========================================================================================
-; Module Name:  LayoutEngine.asm (v0.25)
-; Small bug with Delayed Exe counting 
+; Hopefully the bug is fixed minor counting bug will try to test tommorow more
 ; =========================================================================================
 
 include constants.inc
@@ -266,8 +265,9 @@ _Type:
                     mov al,byte ptr[r14-2]
                     mov byte ptr[r14-1],al
                     sub r14,r12 ;fix
-
+                   
                     call strcopy
+                    sub r14,1
                     add r14, rcx
                     jmp _continue
 
@@ -421,23 +421,29 @@ _loop:
     cmp dl, ")"
     je _Close
     mov rax, 1
+
     cmp dl, "("
     cmove r8, rax
     jmp _continue
 
 _Add:
     add rsi, 1
+    
+
     mov dl, byte ptr[rsi]
     cmp dl, "c"
     jne _continue
 
-    add rcx, 2
+    add rcx,1
     cmp r8, 1
     
     je _continue
     mov dl, byte ptr[rsi+1]
     cmp dl, "("
+
     je _continue
+
+  
     jmp _done
 
 _continue:
@@ -446,9 +452,9 @@ _continue:
     jmp _loop
 
 _Close:
-    add rcx,1
+
 _done:
-    
+    add rcx,1
     ret
 FindDelayedStr endp
 
