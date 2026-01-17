@@ -69,7 +69,8 @@ extern CreateLabelEditThread  : proc
     LayoutStr       db "Y!,0,50,50,100,100,{f:10,b:11,s:10,}Aqaabbbbbb,\c"
                    db "(ZA,10,100,100,100,100,{a:5,b:1,f:10,s:9223372036854775818,}90,\c"
                    db "ZA,0,1000,100,240,160,{a:5,b:51,f:25,s:1}90,\c)"
-                   db "Y,0,50,50,100,100,{f:10,b:11,s:10,}Aqaabbbbbb,\c"
+                   db "Y,0,50,50,100,100,{f:10,b:11,s:10,}Aqaabbbbbb,\c",0
+
                    
 
     ; --- Win32 Class Constants ---
