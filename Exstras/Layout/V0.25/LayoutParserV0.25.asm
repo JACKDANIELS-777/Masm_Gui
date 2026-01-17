@@ -1,6 +1,6 @@
 ; =========================================================================================
 ; Module Name:  LayoutEngine.asm (v0.25)
-; Layout Parser ! adds windows at a delayed time for now its on hover of the main wnd
+; Layout Parser ! adds windows at a delayed time for now its on hover of the main wnd.
 ; =========================================================================================
 
 include constants.inc
