@@ -1,5 +1,5 @@
 ; =========================================================================================
-; Yet another patch. 
+; Yet another patch
 ; =========================================================================================
 
 include constants.inc
@@ -63,9 +63,11 @@ extern CreateLabelEditThread  : proc
     ThreadData       dq 10 dup(0)
 
     ; --- Layout Configuration ---
+
     LayoutStr      db "Y,0,10,200,100,100,{b:10,f:17,}Aqaabbbbbb,\c"
                     db "Y!,0,10,100,100,100,{f:10,b:11,s:10,}Aqaabbbbbb,\c"
-                   db "(ZA,1000,50,50,100,100,{f:10,b:17,}Aqaabbbbbb,\c)",0
+                   db "(ZA,1000,50,50,100,100,{f:10,b:17,}Aqaabbbbbb,\c)"
+                   db "Z,100,50,50,100,100,{f:10,b:17,}0,\c",0
                     
                    
 
@@ -425,7 +427,7 @@ _loop:
 
 _Add:
     add rsi, 1
-    add rcx,1
+    ;add rcx,1
     mov dl, byte ptr[rsi]
     cmp dl, "c"
     jne _continue
@@ -445,7 +447,7 @@ _continue:
     jmp _loop
 
 _Close:
-  
+
 _done:
     
     ret
