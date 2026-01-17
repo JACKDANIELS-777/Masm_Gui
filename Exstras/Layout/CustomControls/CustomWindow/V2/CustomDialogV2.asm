@@ -1,5 +1,5 @@
 ; =========================================================================================
-; Added in Attributes to be used with the Layout Parser
+; Added in Attributes to be used with the Layout Parser.
 ; =========================================================================================
 
 include constants.inc
