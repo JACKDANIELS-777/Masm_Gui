@@ -10,8 +10,8 @@ includelib legacy_stdio_definitions.lib
 ; 2. FOR THE LINKER (tells LINK where to find the function code)
 includelib kernel32.lib  ; For ExitProcess, GetModuleHandle, etc.
 includelib user32.lib    ; For MessageBox, CreateWindow, etc.
-;
-includelib gdi32.lib      ; For grap
+
+includelib gdi32.lib      
 
 
 extern LoadCursorA:proc
