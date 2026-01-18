@@ -1,5 +1,5 @@
 ; =========================================================================================
-; Through Numerous tests seems to be finally patched.
+; Final fix to the Delayed str counter. All test cases pass
 ; =========================================================================================
 
 include constants.inc
@@ -64,13 +64,10 @@ extern CreateLabelEditThread  : proc
 
     ; --- Layout Configuration ---
 
-   LayoutStr     db "Y!,0,10,100,100,100,{f:10,b:11,s:10,}Aqaabbbbbb,\c"
+ LayoutStr     db "Y!,0,10,100,100,100,{f:10,b:11,s:10,}Aqaabbbbbb,\c"
                    db "(ZA,1000,50,50,100,100,{f:10,b:17,}Aqaabbbbbb,\c)"
             db "Y,0,10,200,100,100,{b:10,f:17,}Aqaabbbbbb,\c"
             db "Z,100,50,50,100,100,{f:10,b:17,}10,\c",0
-                    
-                    
-                    
                    
 
     ; --- Win32 Class Constants ---
@@ -428,19 +425,22 @@ _loop:
     jmp _continue
 
 _Add:
-    add rsi, 1
+ 
     
-    mov dl, byte ptr[rsi]
+    mov dl, byte ptr[rsi+1]
     cmp dl, "c"
     jne _continue
 
     add rcx, 1
+    add rsi,1
     cmp r8, 1
+    
     
     je _continue
     mov dl, byte ptr[rsi+1]
     cmp dl, "("
     je _continue
+
     add rcx,1
     jmp _done
 
