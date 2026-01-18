@@ -41,5 +41,5 @@ The orginal controls and code will still work it mereley acts as a add on and ho
 ```asm
 ; Example LayoutStr for a Ghost Plane with a Floating Button and Traffic HUD
 LayoutStr db "Y!,0,0,0,1920,1080,{s:92000000h,}" ; Delayed
-          db "(Z,1,10,10,100,100,{b:10,}Btn1,\c)"   ; Add to the delayed window
+          db "(ZA,1,10,10,100,100,{b:10,}Btn1,\c)"   ; Add to the delayed window
           db "ZM,2,50,50,400,200,{f:10,b:17,}10,\c",0 ; Adds the Custom Z button to the Window Manager
