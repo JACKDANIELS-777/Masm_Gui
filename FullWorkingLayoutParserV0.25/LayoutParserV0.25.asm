@@ -1,5 +1,5 @@
 ; =========================================================================================
-; Yet another patch
+; Through Numerous tests seems to be finally patched.
 ; =========================================================================================
 
 include constants.inc
@@ -64,10 +64,12 @@ extern CreateLabelEditThread  : proc
 
     ; --- Layout Configuration ---
 
-    LayoutStr      db "Y,0,10,200,100,100,{b:10,f:17,}Aqaabbbbbb,\c"
-                    db "Y!,0,10,100,100,100,{f:10,b:11,s:10,}Aqaabbbbbb,\c"
+   LayoutStr     db "Y!,0,10,100,100,100,{f:10,b:11,s:10,}Aqaabbbbbb,\c"
                    db "(ZA,1000,50,50,100,100,{f:10,b:17,}Aqaabbbbbb,\c)"
-                   db "Z,100,50,50,100,100,{f:10,b:17,}0,\c",0
+            db "Y,0,10,200,100,100,{b:10,f:17,}Aqaabbbbbb,\c"
+            db "Z,100,50,50,100,100,{f:10,b:17,}10,\c",0
+                    
+                    
                     
                    
 
@@ -427,7 +429,7 @@ _loop:
 
 _Add:
     add rsi, 1
-    ;add rcx,1
+    
     mov dl, byte ptr[rsi]
     cmp dl, "c"
     jne _continue
@@ -439,6 +441,7 @@ _Add:
     mov dl, byte ptr[rsi+1]
     cmp dl, "("
     je _continue
+    add rcx,1
     jmp _done
 
 _continue:
@@ -447,7 +450,7 @@ _continue:
     jmp _loop
 
 _Close:
-
+; add rcx,1
 _done:
     
     ret
