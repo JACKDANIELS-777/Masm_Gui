@@ -5,7 +5,7 @@ MASM_GUI is a project focused on developing a 100% Assembly-based GUI framework.
 By managing the stack, registers, and memory manually, this project serves as a roadmap for building low-latency, state-driven UI components without the overhead of C/C++ runtimes.
 
 ---
-
+.
 ## 🏗️ Architectural Exploration.
 
 The project currently focuses on several core "low-level" concepts:
