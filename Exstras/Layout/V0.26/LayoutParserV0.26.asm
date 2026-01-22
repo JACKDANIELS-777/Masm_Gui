@@ -412,7 +412,7 @@ _add_control:
     cmp rax,2
     cmove r14,MainHandle
 
-    mov r14,MainHandle
+    ;mov r14,MainHandle forgot to remove in debugging
     
 
     mov r15, 0
