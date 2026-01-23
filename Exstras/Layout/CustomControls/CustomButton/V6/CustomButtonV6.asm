@@ -1,5 +1,5 @@
 ; =========================================================================================
-; Added in events Value = (ProcIndex \times 4,294,967,296) + ID ie 201h or 513 is id for btn click.
+; Added in events Value = (ProcIndex * 4,294,967,296) + ID ie 201h or 513 is id for btn click.
 ; You will need the latest LayoutParser and EventManager V0.01 to work
 ; =========================================================================================
 include constants.inc
