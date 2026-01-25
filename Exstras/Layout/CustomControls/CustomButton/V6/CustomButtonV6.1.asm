@@ -1,5 +1,6 @@
 ; =========================================================================================
-; Added in redundancy check
+; Added in redundancy check.
+
 ; =========================================================================================
 include constants.inc
 include CustomButtonConstants.inc
