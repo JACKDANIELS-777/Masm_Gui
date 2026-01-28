@@ -19,6 +19,7 @@ This engine utilizes an 8-byte "Trench" alignment. Every command and argument oc
 | `SetV    ` | Index REG   | Value (Dec) | **Set Variable**: Converts ASCII to Binary and stores in VREG. |
 | `AddDV   ` | Index REG   | Value (Dec) | **Reinforce**: Adds decimal value directly to VREG slot. |
 | `SubDV   ` | Index REG   | Value (Dec) | **Attrition**: Subtracts decimal value directly from VREG slot. |
+| `CmpSV   ` |  Index REG  |Target Val   | Skip Count  | **Gatekeeper**: If VReg != Target, skip X blocks. |
 
 ## 🧠 Memory Map (Binary Alignment)
 The engine uses a mirrored memory strategy where `VREG_BASE` and `VMEM` share the same truth for zero-latency access. 
