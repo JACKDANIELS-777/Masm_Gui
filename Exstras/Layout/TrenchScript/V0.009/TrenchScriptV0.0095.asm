@@ -274,7 +274,7 @@ _Find_Com:
     mov [r8],r12
 
 
-_done_com
+_done_com:
     jmp _Next_Instruction
     
 _Proc_end:
