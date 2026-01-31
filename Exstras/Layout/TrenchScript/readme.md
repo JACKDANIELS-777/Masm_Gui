@@ -1,5 +1,5 @@
 # 🏛️ TrenchScript Engine
-### 100% x86-64 Assembly
+### 100% x86-64 Assembly .
 
 This engine utilizes an 8-byte "Trench" alignment. Every command and argument occupies exactly one 8-byte block to ensure 1-cycle fetch performance and zero-bloat execution.
 
