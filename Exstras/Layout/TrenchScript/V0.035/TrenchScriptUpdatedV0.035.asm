@@ -724,9 +724,9 @@ _DequeE:
     add r15,r12
 
 
-    add rsp,20h
+    add rsp,0x20
 
-    sub rsp,20h
+    sub rsp,0x20
 
 
     # NOTE: Standard interpreters read the data. The Sovereign Core BECOMES the data.
@@ -2529,7 +2529,7 @@ _ReadF:
     mov rdx,80000000h
     mov r8,1
     mov r9,0
-    mov qword ptr[rsp+20h],3
+    mov qword ptr[rsp+0x20],3
     mov qword ptr[rsp+28h],80h
     mov qword ptr[rsp+30h],0
     call CreateFileA
@@ -2547,16 +2547,16 @@ _ReadF:
     mov rdx,rdi
     mov r8,r12
     lea r9,scratchpad
-    mov qword ptr[rsp+20h],0
+    mov qword ptr[rsp+0x20],0
 
     call ReadFile
     add rsp,28h
 
-    sub rsp,20h
+    sub rsp,0x20
     mov rcx,r15
     call CloseHandle
 
-    add rsp,20h
+    add rsp,0x20
     lea r12,VMEM
 
     mov r15,r14
@@ -2585,7 +2585,7 @@ _ReadFile:
     mov rdx,80000000h
     mov r8,1
     mov r9,0
-    mov qword ptr[rsp+20h],3
+    mov qword ptr[rsp+0x20],3
     mov qword ptr[rsp+28h],80h
     mov qword ptr[rsp+30h],0
 
@@ -2603,16 +2603,16 @@ _ReadFile:
     lea rdx,VMEM
     mov r8,r12
     lea r9,scratchpad
-    mov qword ptr[rsp+20h],0
+    mov qword ptr[rsp+0x20],0
 
     call ReadFile
     add rsp,28h
 
-    sub rsp,20h
+    sub rsp,0x20
     mov rcx,r15
     call CloseHandle
 
-    add rsp,20h
+    add rsp,0x20
     lea r12,VMEM
 
     mov r15,r14
@@ -3345,13 +3345,13 @@ _MsgB:
     je _exit_mem 
     mov byte ptrr14,0
 _exit_mem:  
-    sub rsp,20h
+    sub rsp,0x20
     mov rcx,0
     mov rdx,r14
     mov r8, r14
     mov r9,2
     call MessageBoxA
-    add rsp,20h
+    add rsp,0x20
     cmp dil,0
     je  _exit_mem1  
     mov byte ptrr14,dil
@@ -3379,7 +3379,7 @@ _Handle_SetColor:
     call GetDC
     mov rdi, rax                
     mov rcx, r12
-    lea rdx, [rsp + 20h]        
+    lea rdx, [rsp + 0x20]        
 
     call GetClientRect
     add r14,8
@@ -3388,7 +3388,7 @@ _Handle_SetColor:
     call CreateSolidBrush
     mov r15, [rax]                
     mov rcx, rdi                
-    lea rdx, [rsp + 20h]        
+    lea rdx, [rsp + 0x20]        
     mov r8,  r15                
 
     call FillRect
