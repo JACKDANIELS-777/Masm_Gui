@@ -1,7 +1,7 @@
 8# MASM_GUI: Exploring the Win32 API through x64 Assembly ....
 ...
 
-MASM_GUI is a project focused on developing a 100% Assembly-based GUI framework. The goal is to move away from high-level abstractions and explore the limits of the Windows GDI and User32 subsystems using raw x64 instructions.
+MASM_GUI is a project focused on developing a 100% Assembly-based GUI framework. The goal is to move away from high-level abstractions and explore the limits of the Windows GDI and User32 subsystems using raw x64 instructions..
 
 By managing the stack, registers, and memory manually, this project serves as a roadmap for building low-latency, state-driven UI components without the overhead of C/C++ runtimes.  .   .
 
