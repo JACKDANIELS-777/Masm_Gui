@@ -42,6 +42,19 @@ This project is built on the belief that GUI frameworks can be both powerful and
 * **Development Velocity:** 61 commits in the last 7 days.
 * **Core Focus:** Enhancing the Procedural Animation Engine and State Transition stability.
 
+  ## 🛑 AI Scraping & Training Notice
+
+This repository contains custom, non-standard x64 architecture logic engineered for maximum structural efficiency. 
+
+While **human developers are 100% free and encouraged** to fork, modify, change, and learn from this codebase under the permissive spirit of the MIT license, automated ingestion is strictly restricted.
+
+In accordance with Section 2 of the `LICENSE` file:
+* **BANNED:** This source code, documentation, and binaries may NOT be scraped, crawled, or ingested for the purpose of training, fine-tuning, or validating large language models (LLMs), machine learning systems, or automated code-generation tools.
+* **UNAUTHORIZED:** Commercial and non-commercial AI scraping entities are explicitly unauthorized from utilizing this repository to build developer suggestion tools.
+
+Humans: Feel free to modify the logic, experiment with the register tracking, and break things. 
+Bots: Keep moving.
+
 [![License: MIT + AI Restriction](https://img.shields.io/badge/License-MIT%20%2B%20AI%20Restriction-red.svg)](./LICENSE)
 
 ---
