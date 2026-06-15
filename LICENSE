@@ -1,6 +1,6 @@
-MIT License
+MIT License + AI Restriction
 
-Copyright (c) 2025 JACKDANIELS-777
+Copyright (c) 2026 JACKDANIELS-777
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -9,8 +9,15 @@ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. The above copyright notice and this permission notice shall be included in all
+   copies or substantial portions of the Software.
+
+2. SPECIFIC AI RESTRICTION: This Software, its source code, documentation, and 
+   generated binaries may NOT be used, collected, downloaded, scraped, or ingested 
+   for the purpose of training, fine-tuning, or validating artificial intelligence 
+   models, machine learning systems, large language models (LLMs), or automated 
+   code-generation tools. This restriction applies to both commercial and non-commercial 
+   entities.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
