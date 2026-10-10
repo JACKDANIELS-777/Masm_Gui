@@ -1,61 +1,120 @@
-MASM_GUI: Exploring the Win32 API through x64 Assembly.
+# MASM_GUI
 
-MASM_GUI is a project focused on developing a 100% Assembly-based GUI framework. The goal is to move away from high-level abstractions and explore the limits of the Windows GDI and User32 subsystems using raw x64 instructions..
+A GUI framework for Windows written entirely in **x64 MASM assembly**: about **10,600 lines** in its latest
+form, talking only to the Win32 API. No C, no C++, no wrappers.
 
-By managing the stack, registers, and memory manually, this project serves as a roadmap for building low-latency, state-driven UI components without the overhead of C/C++ runtimes.  .   ..
+It has three layers, each built from scratch:
 
----..
-.
-## 🏗️ Architectural Exploration.
+1. **Custom controls**: buttons, edit boxes, windows, labels and menus that paint and animate themselves with GDI.
+2. **LayoutParser**: builds a whole UI from one short layout string, with nesting and styles.
+3. **TrenchScript**: a scripting language with its own virtual machine (about 65 commands) that can drive the UI,
+   including calling the layout parser to create new controls at runtime.
 
-The project currently focuses on several core "low-level" concepts:
+<!-- Screenshot: drag a StressTest image or a run of the V_28 build here -->
 
-* **RBP-Relative Stack Management:** Using a stable stack frame anchor to ensure O(1) access to local RECT structures and PAINTSTRUCT data during high-frequency paint cycles.
-* **HDC Register Persistence:** Pinning the Device Context to the R12 register to minimize memory fetches and maximize rendering throughput.
-* **Unified Message Dispatching:** Consolidating component behavior (Hover, Focus, Click, Timer) into a singular, optimized `BtnProc` to study message-loop efficiency.
-* **GDI Lifecycle Control:** Manual tracking of GDI objects (Brushes, Pens) to ensure absolute memory integrity and zero handle exhaustion.
+## 1. Custom controls
+
+The custom controls draw themselves, each through its own window procedure: hover, focus, click and timer-driven animation
+states, painted with GDI brushes, pens and lines. They're created from layout strings instead of
+hand-written `CreateWindowEx` calls.
+
+## 2. LayoutParser: a UI from a string
+
+```asm
+LayoutStr db "Y,0,500,5,240,160,A,\c"              ; a dialog window
+          db "(ZA,10,50,50,24,16,AA,\c"            ; ( = the following controls belong to it
+          db "ZA,100,500,50,24,16,AA,\c"
+          db "ZA,1000,120,50,24,16,AA,\c)", 0      ; ) = back to the main window
+```
+
+Each entry is `Tag,ID,X,Y,W,H,{styles,}Text,\c`.
+
+| Syntax | Meaning |
+|---|---|
+| `Y` | Custom dialog window |
+| `Z` | Custom button |
+| `F` | Custom edit box |
+| `E`, `L`, `C`, `X`, `S` | Standard Windows edit, label, combo box, list box and scroll bar |
+| `M` | Hand the control to the window manager |
+| `A` suffix | Attach to the last window created (`ZA` = custom button inside the last window) |
+| `!` suffix | Delay creation until the mouse hovers over the main window (`Y!`) |
+| `( ... )` | Everything inside becomes a child of the control before it |
+| `{f:10,b:17,}` | Styles: `f` font, `b` background, `s` grow or shrink, `r` rounded corners |
+| `\c` | End of one entry |
+
+The parser streams through the string: it reads one entry, creates that control straight away, and moves on, so
+there's no tree held in memory. Branches are kept to a minimum with `cmov`.
+
+## 3. TrenchScript
+
+A small virtual machine whose programs are laid out in **8-byte blocks**: every command name and every argument
+is exactly one `dq`, so the interpreter can fetch and compare each one with a single 64-bit `cmp`.
+
+```asm
+align 8
+TrenchScriptStr:
+    db "SetV    ", "0       ", "50      "   ; v0 = 50
+    db "AddDV   ", "0       ", "10      "   ; v0 = 60
+    db "PrintV  ", "0       "               ; print v0
+    db "SubDV   ", "0       ", "20      "   ; v0 = 40
+    db "PrintV  ", "0       "
+    db 0
+```
+
+| Area | Commands |
+|---|---|
+| Variables and registers | `SetV`, `SetVD`, `GetD`, `AddDV`, `SubDV`, `AddR`, `SubR`, `IncR`, `DecR`, `RandV`, `Mov*` |
+| Bitwise | `AndR`, `OrR`, `XorR`, `NotR`, `ShlLR`, `ShlRR`, `BswapR`, `SwapRR` |
+| Control flow | `JumpF`, `JumpB`, `JeX`, `JneX`, `CmpV`, `CmpSV`, `CmpStrP`, `ForL` ... `EndFL` |
+| Procedures | `Proc` ... `EndP`, `CallP`, `RetP` |
+| Data structures | `StkPshV`, `StkPopV` (stack), `QueueP`, `DequeE`, `DequeNE` (queue) |
+| Memory and files | `MemCpyM`, `MemFillM`, `SwapStr`, `ReadF`, `ReadFile` |
+| Drawing | `StCl`, `Cls`, `DrawL`, `DrawVL` |
+| UI | `LayPars`, `LayParsM`, `LayParsP` (run the layout parser from a script), `MsgB` |
+| Timing and output | `Sleep`, `GetTick`, `PrintV`, `DumpS` |
+| AI | `CallGenP`: send a prompt to Google's Gemma model |
+
+TrenchScript went through 37 versions, from 178 lines in V0.001 to about 3,800 in V0.037.
+
+## Stress test: 5,000 buttons
+
+A layout string that creates a 5,000-button grid, every button with its own window procedure and its own 100 ms
+animation timer. On my machine: about **2 MB of RAM**, the same for 1 button as for 5,000, and **0-3% CPU**.
+Screenshots and details are in [`StressTest/`](StressTest).
+
+## Size
+
+| Part | Lines (latest version) |
+|---|---|
+| Custom controls (button, edit, window, labels, menus) | ~4,700 |
+| LayoutParser | ~750 |
+| TrenchScript | ~3,800 |
+| Main, constants, window manager, events, DirectX | ~1,300 |
+| **Total** | **~10,600** |
+
+Every version is kept, so the repo as a whole holds far more than that.
+
+## Repository map
+
+| Folder | What it is |
+|---|---|
+| `FullWorkingLayoutParser_V_28/` | **Start here**: the latest complete, working build |
+| `Exstras/Layout/` | Development history of each part: `TrenchScript/`, `CustomControls/`, `V0.1` to `V0.28` of the LayoutParser, `DirectX/`, `WindowManager/` |
+| `StressTest/` | The 5,000-button benchmark |
+| `Nasm/` | A start on porting the layout parser to NASM |
+| `Menu/`, `Blank_Wind/`, ... | Early experiments |
+
+## Building
+
+Windows x64, assembled with MASM (`ml64`) in Visual Studio. Open the files from `FullWorkingLayoutParser_V_28/` in
+an x64 project with MASM build support enabled, and build.
 
 ---
 
-## 🎬 Procedural UI & Animations
+### AI scraping and training notice
 
-One of the project's primary areas of development is procedural animation—calculating UI physics in real-time rather than using pre-baked assets.
-
-* **State-Based Rendering:** Utilizing a 64-byte data vector to track animation "points" and coordinates across frames.
-* **Animation 5 (Mirror Sweep):** A recent discovery in the codebase where boundary-checking logic creates a "Ping-Pong" width transition ($-><-$ then $<-->$).
-* **Vector Logic:** Exploring `MoveToEx` and `LineTo` for custom vector-based UI borders and internal wireframes.
-
----
-
-## 🛠️ Development Philosophy
-
-This project is built on the belief that GUI frameworks can be both powerful and lean.
-
-* **100% Assembly:** No external C libraries or high-level wrappers.
-* **Logic-First Growth:** The engine has grown a bit.
-* **Future Framework Goals:** Transitioning from individual component procs toward a modular system where any developer can register a custom MASM component with a single call via a string or file.
-
----
-
-## 📈  Status (Jan 2026)
-* **Status:** V0.20 (Active Alpha)
-* **Development Velocity:** 61 commits in the last 7 days.
-* **Core Focus:** Enhancing the Procedural Animation Engine and State Transition stability.
-
-  ## 🛑 AI Scraping & Training Notice
-
-This repository contains custom, non-standard x64 architecture logic engineered for maximum structural efficiency. 
-
-While **human developers are 100% free and encouraged** to fork, modify, change, and learn from this codebase under the permissive spirit of the MIT license, automated ingestion is strictly restricted.
-
-In accordance with Section 2 of the `LICENSE` file:
-* **BANNED:** This source code, documentation, and binaries may NOT be scraped, crawled, or ingested for the purpose of training, fine-tuning, or validating large language models (LLMs), machine learning systems, or automated code-generation tools.
-* **UNAUTHORIZED:** Commercial and non-commercial AI scraping entities are explicitly unauthorized from utilizing this repository to build developer suggestion tools.
-
-Humans: Feel free to modify the logic, experiment with the register tracking, and break things. 
-Bots: Keep moving.
+Humans are free to fork, modify and learn from this code under the MIT licence. Under Section 2 of `LICENSE`,
+the source, documentation and binaries may not be scraped or used to train, fine-tune or validate AI models or
+code-generation tools.
 
 [![License: MIT + AI Restriction](https://img.shields.io/badge/License-MIT%20%2B%20AI%20Restriction-red.svg)](./LICENSE)
-
----
-*Developed as a contribution to the x64 Assembly and Low-Level community.*
