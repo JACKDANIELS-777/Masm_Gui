@@ -12,6 +12,10 @@ It has three layers, each built from scratch:
 
 <!-- Screenshot: drag a StressTest image or a run of the V_28 build here -->
 
+Small Demo:
+<img width="720" height="373" alt="masm_gui_demo" src="https://github.com/user-attachments/assets/a9b98d68-e589-4104-a1c4-aef7cb94d478" />
+
+
 ## 1. Custom controls
 
 The custom controls draw themselves, each through its own window procedure: hover, focus, click and timer-driven animation
