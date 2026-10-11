@@ -77,10 +77,12 @@ extern EditClassName:byte
 
     ; --- Layout Configuration ---
 
-  LayoutStr     db "Y!,0,10,100,100,100,{f:10,b:11,s:10,}Aqaabbbbbb,\c"
-                   db "(ZA,1000,50,50,100,100,{f:10,b:17,}Aqaabbbbbb,\c)"
-            db "Y,0,10,200,100,100,{b:10,f:17,}Aqaabbbbbb,\c"
-            db "ZM,100,50,50,100,100,{f:10,b:17,}10,\c",0     
+   LayoutStr     db "Z,101,30,30,170,55,{f:4,b:25,}Play,\c"
+               db "Z,102,30,105,170,55,{f:4,b:19,}Settings,\c"
+               db "Z,103,30,180,170,55,{f:4,b:18,}Quit,\c"
+               db "Z,104,230,30,230,205,{f:15,b:28,}Pure x64 MASM,\c"
+               db "Y,0,640,140,300,220,{b:28,f:15,}Spawned window,\c"
+               db "(ZA,201,40,40,200,60,{f:4,b:21,}Child button,\c)",0
     ;[[],[]]
     ; --- Win32 Class Constants ---
     Static              db "STATIC", 0
@@ -634,6 +636,8 @@ StrToInt proc
     xor rax, rax
     xor r8, r8
 _next_char:
+    test rdx, rdx           ; stop after rdx characters (the buffer has leftover digits after the number)
+    jz _done
     mov r8b, byte ptr [rcx]
     sub r8b, '0'
     cmp r8b, 9
@@ -641,6 +645,7 @@ _next_char:
     imul rax, 10
     add rax, r8
     inc rcx
+    dec rdx
     jmp _next_char
 _done:
     ret
