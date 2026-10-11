@@ -77,9 +77,10 @@ extern EditClassName:byte
 
     ; --- Layout Configuration ---
 
- LayoutStr     db "Z,101,10,10,100,100,{f:10,b:17,}Edit here,\c",0
-       
-                   
+  LayoutStr     db "Y!,0,10,100,100,100,{f:10,b:11,s:10,}Aqaabbbbbb,\c"
+                   db "(ZA,1000,50,50,100,100,{f:10,b:17,}Aqaabbbbbb,\c)"
+            db "Y,0,10,200,100,100,{b:10,f:17,}Aqaabbbbbb,\c"
+            db "ZM,100,50,50,100,100,{f:10,b:17,}10,\c",0     
     ;[[],[]]
     ; --- Win32 Class Constants ---
     Static              db "STATIC", 0

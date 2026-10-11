@@ -101,7 +101,11 @@ mov qword ptr[rsp+58h],0
 call CreateWindowExA
 add rsp,68h
 
+push rax            ; keep the new window's handle (LayoutParser stores it in hLastWnd)
+sub rsp,20h
 call GetLastError
+add rsp,20h
+pop rax             ; return the handle, not the error code
 nop
 
 

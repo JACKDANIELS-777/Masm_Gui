@@ -1,0 +1,7 @@
+# Build output (build.bat makes these)
+*.obj
+*.exe
+*.pdb
+*.ilk
+*.lst
+*.map
