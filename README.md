@@ -12,11 +12,9 @@ It has three layers, each built from scratch:
 3. **TrenchScript**: a scripting language with its own virtual machine (about 65 commands) that can drive the UI,
    including calling the layout parser to create new controls at runtime.
 
-<!-- Screenshot: drag a StressTest image or a run of the V_28 build here -->
+## Demo
 
-Small Demo:
 <img width="720" height="373" alt="masm_gui_demo" src="https://github.com/user-attachments/assets/a9b98d68-e589-4104-a1c4-aef7cb94d478" />
-
 
 ## 1. Custom controls
 
@@ -98,6 +96,8 @@ Screenshots and details are in [`StressTest/`](StressTest).
 | Main, constants, window manager, events, DirectX | ~1,300 |
 | **Total** | **~10,600** |
 
+The whole framework builds to a **~38 KB** exe.
+
 Every version is kept, so the repo as a whole holds far more than that.
 
 ## Repository map
@@ -112,8 +112,13 @@ Every version is kept, so the repo as a whole holds far more than that.
 
 ## Building
 
-Windows x64, assembled with MASM (`ml64`) in Visual Studio. Open the files from `FullWorkingLayoutParser_V_28/` in
-an x64 project with MASM build support enabled, and build.
+Windows x64 with Visual Studio's C++ tools (for `ml64` and `link`):
+
+```
+FullWorkingLayoutParser_V_28\build.bat
+```
+
+Or download a prebuilt `MasmGui.exe` from [Releases](https://github.com/JACKDANIELS-777/Masm_Gui/releases).
 
 ---
 
