@@ -1,5 +1,7 @@
 # MASM_GUI
 
+[![build](https://github.com/JACKDANIELS-777/Masm_Gui/actions/workflows/build.yml/badge.svg)](https://github.com/JACKDANIELS-777/Masm_Gui/actions/workflows/build.yml)
+
 A GUI framework for Windows written entirely in **x64 MASM assembly**: about **10,600 lines** in its latest
 form, talking only to the Win32 API. No C, no C++, no wrappers.
 
