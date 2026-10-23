@@ -16,6 +16,29 @@ It has three layers, each built from scratch:
 
 <img width="720" height="373" alt="masm_gui_demo" src="https://github.com/user-attachments/assets/a9b98d68-e589-4104-a1c4-aef7cb94d478" />
 
+## Try it: load your own layout
+
+Download `MasmGui.exe` and `menu.layout` from [Releases](https://github.com/JACKDANIELS-777/Masm_Gui/releases/latest), then either:
+
+- **drag `menu.layout` onto `MasmGui.exe`**, or
+- run it from a terminal:
+
+```
+MasmGui.exe menu.layout
+```
+
+A layout file uses the same format as `LayoutStr`, one entry per line:
+
+```
+Z,101,30,30,170,55,{f:4,b:21,}New Game,\c
+Z,102,30,105,170,55,{f:4,b:19,}Load,\c
+Z,103,30,180,170,55,{f:4,b:25,}Options,\c
+```
+
+Write your own and you get a native Windows GUI with no assembler needed. Running the exe with no file (or a missing one) shows the built-in demo.
+
+**Tip:** right-click a `.layout` file → **Open with** → `MasmGui.exe` → tick **Always use this app**. From then on, double-clicking any `.layout` file opens it as a GUI.
+
 ## 1. Custom controls
 
 The custom controls draw themselves, each through its own window procedure: hover, focus, click and timer-driven animation
