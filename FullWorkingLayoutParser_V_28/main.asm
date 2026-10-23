@@ -79,6 +79,7 @@ extern ModifyCreateLabelEdit:proc
 extern AddMenus:proc
 extern CreateMenusString:proc
 extern LayoutParser:proc
+extern LoadLayoutFromArgs:proc
 
 extern MainLabelptr:qword
 extern MainEditptr:qword
@@ -438,10 +439,11 @@ _Create:
 
 
 
+call LoadLayoutFromArgs
 lea rcx,Mem1
-mov rdx,0
+mov rdx,rax
 
-call LayoutParser 
+call LayoutParser
 cld                     ; Clear Direction Flag (ensure we move forward)
     lea rdi, Mem1           ; Point RDI to the start of the 1000-byte buffer
     xor rax, rax            ; The value to write (0)
