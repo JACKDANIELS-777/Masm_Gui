@@ -12,6 +12,13 @@ It has three layers, each built from scratch:
 3. **TrenchScript**: a scripting language with its own virtual machine (about 65 commands) that can drive the UI,
    including calling the layout parser to create new controls at runtime.
 
+## Why
+
+I didn't set out to build a GUI framework. I got tired of writing every control by hand, so I wrote a parser
+to make them for me, and it kept growing from there: self-drawn custom controls, then a scripting VM to drive it all.
+
+Built in about a month, learning the Win32 API from scratch along the way.
+
 ## Demo
 
 <img width="720" height="373" alt="masm_gui_demo" src="https://github.com/user-attachments/assets/a9b98d68-e589-4104-a1c4-aef7cb94d478" />
