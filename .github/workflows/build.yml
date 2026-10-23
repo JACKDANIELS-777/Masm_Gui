@@ -1,0 +1,21 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build
+        shell: cmd
+        run: FullWorkingLayoutParser_V_28\build.bat
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MasmGui
+          path: FullWorkingLayoutParser_V_28/MasmGui.exe
