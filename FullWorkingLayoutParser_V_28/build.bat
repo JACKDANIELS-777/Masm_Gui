@@ -12,5 +12,5 @@ cd /d "%~dp0"
 where ml64 >nul 2>&1 || (echo ml64 not found. Install Visual Studio with "Desktop development with C++". & exit /b 1)
 
 for %%f in (*.asm) do ml64 /nologo /c %%f || exit /b 1
-link /nologo /SUBSYSTEM:WINDOWS /ENTRY:WinMain /OUT:MasmGui.exe *.obj kernel32.lib user32.lib gdi32.lib msimg32.lib d3d11.lib dxguid.lib || exit /b 1
+link /nologo /MERGE:.rdata=.text /SUBSYSTEM:WINDOWS /ENTRY:WinMain /OUT:MasmGui.exe *.obj kernel32.lib user32.lib gdi32.lib msimg32.lib d3d11.lib dxguid.lib || exit /b 1
 echo Built MasmGui.exe

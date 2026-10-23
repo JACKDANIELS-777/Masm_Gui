@@ -75,7 +75,9 @@ IsRanTrench db 0
 Start_Point dq 0
 
 
-Procs_Table   dq 250 dup(0,0,0,0)
+.data?
+Procs_Table   dq 250 dup(?,?,?,?)
+.data
 Proc_count dq 0
 Proc_ret dq 0
 Warp dq 0
